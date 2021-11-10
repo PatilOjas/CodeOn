@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Editor</title>
+	<link rel="stylesheet" href="{% static 'styles/editorStyle.css' %}">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" /> -->
+
+	<!-- <style type="text/css" media="screen">
+		body {
+			overflow: hidden;
+		}
+
+		#editor {
+			min-width: 500px;
+			min-height: 500px;
+		}
+	</style> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+		<h1 class="logo">CodeOn</h1>
+		<label for="myselect">Select your preferred language:</label>
+		<select class="myselect" onchange=onSelectChange(this.value.trim())>
+			<option value="53">C++</option>
+			<option value="62">Java</option>
+			<option value="70">Python</option>
+		</select>
+		<br>
+		<textarea name="code" id="code" cols="150" rows="20"></textarea>
+		<br>
+		<button class="btn btn-success">Execute</button>
+				
+	<script src="{% static 'scripts/texteditor.js' %}"></script>
+	<script>
+
+
+		function onSelectChange(selectedVal) {
+
+			console.log(selectedVal)
+			if (selectedVal != undefined && selectedVal != null && selectedVal != "") {
+				$("button").off('click');
+				codeEditor(selectedVal)
+			}
+		}
+		window.onload = function () {
+			codeEditor("53");
+		};
+	</script>
+</body>
+
+</html>
