@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from editor.forms import RegistrationModel
 from editor.models import Register
 from django.contrib.auth import authenticate, login
+import compilerConnection
 
 def homepage(request):
 	if request.method == 'POST':
@@ -25,4 +26,9 @@ def homepage(request):
 	return render(request, 'login.html')
 
 def editorPage(request):
+	if request.method == 'POST':
+		print(request.POST['language'])
+		print(request.POST['code'])
+		codeprint = compilerConnection.compilerConnJava(request.POST['code'])
+		print(codeprint)
 	return render(request, 'index.html')
