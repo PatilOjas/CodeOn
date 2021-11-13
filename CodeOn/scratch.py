@@ -24,8 +24,8 @@ def execute_java(java_file, stdin):
         print(stderr.decode())
 
 # if not compile_java('Hi.java'):
-compile_java('Hi.java')
-execute_java('Hi.java', '1\n0')
+compile_java('Java20211113093651166484.java')
+execute_java('Java20211113093651166484.java', '1\n0\n')
 
 # import os
 

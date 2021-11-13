@@ -23,19 +23,27 @@
 </head>
 <body>
 		<h1 class="logo">CodeOn</h1>
-		<label for="myselect">Select your preferred language:</label>
-		<select class="myselect" onchange=onSelectChange(this.value.trim())>
-			<option value="53">C++</option>
-			<option value="62">Java</option>
-			<option value="70">Python</option>
-		</select>
+		<form action="#" method="post">
+			{% csrf_token %}
+			<label for="myselect">Select your preferred language:</label>
+			<select class="myselect" name="language">
+				<option value=".cpp">C++</option>
+				<option value=".java">Java</option>
+				<option value=".py">Python</option>
+			</select>
+			<br>
+			<textarea name="code" id="code" cols="150" rows="20"></textarea>
+			<br>
+			<button class="btn btn-success" type="submit">Execute</button>
+		</form>
+		<h1>Result</h1>
 		<br>
-		<textarea name="code" id="code" cols="150" rows="20"></textarea>
-		<br>
-		<button class="btn btn-success">Execute</button>
+		{% if result %}
+		{{ result }}
+		{% endif %}
 				
-	<script src="{% static 'scripts/texteditor.js' %}"></script>
-	<script>
+	<!-- <script src="{% static 'scripts/texteditor.js' %}"></script> -->
+	<!-- <script>
 
 
 		function onSelectChange(selectedVal) {
@@ -49,7 +57,7 @@
 		window.onload = function () {
 			codeEditor("53");
 		};
-	</script>
+	</script> -->
 </body>
 
 </html>
