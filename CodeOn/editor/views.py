@@ -7,6 +7,8 @@ from compilerConnection import CompilerConn
 from django.template import RequestContext
 # from django.template import Context
 
+compilerconn = CompilerConn()
+
 def homepage(request):
 	if request.method == 'POST':
 		if 'signup' in request.POST:
@@ -29,13 +31,19 @@ def homepage(request):
 
 def editorPage(request):
 	# context = Context({'result':False})
+	global compilerconn
 	context = {'result':False}
+	codeprint = ""
 	if request.method == 'POST':
 		print(request.POST['language'])
 		print(request.POST['code'])
-		codeprint = CompilerConn().compilerConnJava(request.POST['code'])
-		# data['result'] = codeprint
-		# context.update({'result': codeprint})
+		if request.POST['language'] == '.java':
+			codeprint = compilerconn.compilerConnJava(request.POST['code'])
+		elif request.POST['language'] == '.py':
+			codeprint = compilerconn.compilerConnPython(request.POST['code'])
+		else:
+			codeprint = compilerconn.compilerConnCPP(request.POST['code'])
+
 		print(codeprint)
 		context['result'] = codeprint
 	

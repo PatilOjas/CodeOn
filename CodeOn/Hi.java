@@ -6,6 +6,6 @@ public class Hi{
 		int name = myInpt.nextInt();
 		int lastname = myInpt.nextInt();
 		int result = (name + lastname);
-		System.out.println("My name is " + result);
+		System.out.println("My sum is " + result);
 	}
 }
