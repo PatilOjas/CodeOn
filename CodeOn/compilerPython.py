@@ -4,6 +4,7 @@ import socket
 import threading
 import datetime
 import re
+import tempfile
 
 def interpret_python(filename, stdin):
     cmd = ['python3', filename]

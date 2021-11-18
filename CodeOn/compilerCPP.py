@@ -19,7 +19,14 @@ def execute_cpp(filename, stdin):
 
 def compile_cpp(filename):
     # subprocess.check_call([f'g++ -o {filename}', filename+'.cpp'])
-    os.system(f"g++ -o {filename} {filename}.cpp")
+    os.system(f"g++ -o {filename} {filename}.cpp 2> logCPP")
+    f = open('logCPP', 'r')
+    l = f.read()
+    if len(l) > 0:
+        return l
+    else:
+        return 0
+
 
 def pipe(clientConnection):
     timeStamp = re.sub(r'[\s:.-]', '', str(datetime.datetime.now()))
@@ -34,12 +41,20 @@ def pipe(clientConnection):
     input = clientConnection.recv(2048).decode()
     print(input)
   
-    # try:
-    compile_cpp(fileName)
-    op = execute_cpp(fileName, input.encode()) 
-    clientConnection.send(op.encode())
-    # except:
-    #     print("ERROR in python code")
+    flag = 1
+    try:
+        flag = compile_cpp(fileName)
+    except:
+        print("Compilation error")
+
+    if not flag:
+        try:
+            op = execute_cpp(fileName, input.encode()) 
+            clientConnection.send(op.encode())
+        except:
+            print("RunTime error")
+    else:
+        clientConnection.send(flag.encode())
     
     clientConnection.close()
 
