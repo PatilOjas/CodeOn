@@ -1,4 +1,0 @@
-CPP20211118002300235923.cpp: In function ‘int main()’:
-CPP20211118002300235923.cpp:9:23: error: ‘result’ was not declared in this scope
-    9 |     cout<<"My sum: "<<result;
-      |                       ^~~~~~

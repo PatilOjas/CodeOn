@@ -1,10 +1,9 @@
 import os.path, subprocess
 import os
 from subprocess import STDOUT, PIPE
-import socket
-import threading
 import datetime
 import re
+from xmlrpc.server import SimpleXMLRPCServer
 
 def execute_cpp(filename, stdin):
     cmd = [f'./{filename}']
@@ -28,17 +27,15 @@ def compile_cpp(filename):
         return 0
 
 
-def pipe(clientConnection):
+def pipe(code, input):
     timeStamp = re.sub(r'[\s:.-]', '', str(datetime.datetime.now()))
     fileName = 'CPP' + timeStamp
   
-    code = clientConnection.recv(2048).decode()
   
     f = open(fileName+ '.cpp', 'w')
     f.write(code)
     f.close()
 
-    input = clientConnection.recv(2048).decode()
     print(input)
   
     flag = 1
@@ -50,45 +47,19 @@ def pipe(clientConnection):
     if not flag:
         try:
             op = execute_cpp(fileName, input.encode()) 
-            clientConnection.send(op.encode())
+            return op.encode()
         except:
             print("RunTime error")
     else:
-        clientConnection.send(flag.encode())
+        return flag.encode()
     
-    clientConnection.close()
 
-try:
-    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("Socket creation successful!")
-except socket.error as err:
-    print("Socket creation failed with error", str(err))
 
 ipAddr = "127.0.0.1"
 portNo = 6666
 
-try: 
-    serverSocket.bind((ipAddr, portNo))
-    print("Socket has been bound on port no", portNo)
-except socket.error as err:
-    print("Failed to bind the socket with error", str(err))
+server = SimpleXMLRPCServer((ipAddr, portNo))
+server.register_function(pipe, 'CppCompiler')
 
-try:
-    serverSocket.listen(10)
-    print("Server is listening")
-except socket.error as err:
-    print("Failed to listen with error", str(err))
-
-while(True):
-    try:
-        clientConnection, clientAddr = serverSocket.accept()
-        print("Connection established successfully")
-    except socket.error as err:
-        print("Connection failed with error", str(err))
-    
-
-    tid = threading.Thread(target=pipe, args=(clientConnection,))
-    tid.start()
-
-
-# interpret_python('Hi.py', 'Ojas\nPatil')
+print(f"Server started at {ipAddr}:{portNo}")
+server.serve_forever()

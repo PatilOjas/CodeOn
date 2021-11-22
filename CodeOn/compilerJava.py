@@ -1,11 +1,9 @@
 import os.path, subprocess, os
 from subprocess import STDOUT, PIPE
-import socket
-import threading
 import datetime
 import re
 import tempfile
-
+from xmlrpc.server import SimpleXMLRPCServer
 
 originalClsName = ""
 
@@ -33,12 +31,11 @@ def execute_java(java_file, stdin):
         else:
             return stderr.decode()
 
-def pipe(clientConnection):
+def pipe(text, input):
     # timeStamp = re.sub(r'[\s:.-]', '', str(datetime.datetime.now()))
     # java_file = f'{timeStamp}.java'
     timeStamp = re.sub(r'[\s:.-]', '', str(datetime.datetime.now()))
     clsName = 'Java'+timeStamp
-    text = clientConnection.recv(2048).decode()
     print(text)
     q=re.search('public class', text).span()
     s= q[1]+1
@@ -62,7 +59,6 @@ def pipe(clientConnection):
     f.write(text)
     f.close()
 
-    input = clientConnection.recv(2048).decode()
     print(input)
 
     flag = 0
@@ -74,43 +70,20 @@ def pipe(clientConnection):
 
     if not flag:
         try:
-            clientConnection.send(execute_java(clsName + '.java', input.encode()).encode())
+            return execute_java(clsName + '.java', input.encode()).encode()
         except:
             print("RunTime error in java code")
     else:
         flag = re.sub(clsName, originalClsName, flag)
-        clientConnection.send(flag.encode())
+        return flag.encode()
     
-    clientConnection.close()
-
-try:
-    serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("Socket creation successful!")
-except socket.error as err:
-    print("Socket creation failed with error", str(err))
-
+    
 ipAddr = "127.0.0.1"
 portNo = 9999
 
-try: 
-    serverSocket.bind((ipAddr, portNo))
-    print("Socket has been bound on port no", portNo)
-except socket.error as err:
-    print("Failed to bind the socket with error", str(err))
 
-try:
-    serverSocket.listen(10)
-    print("Server is listening")
-except socket.error as err:
-    print("Failed to listen with error", str(err))
+server = SimpleXMLRPCServer((ipAddr, portNo))
+server.register_function(pipe, 'JavaCompiler')
 
-while(True):
-    try:
-        clientConnection, clientAddr = serverSocket.accept()
-        print("Connection established successfully")
-    except socket.error as err:
-        print("Connection failed with error", str(err))
-    
-
-    tid = threading.Thread(target=pipe, args=(clientConnection,))
-    tid.start()
+print(f"Server started at {ipAddr}:{portNo}")
+server.serve_forever()

@@ -1,4 +1,0 @@
-Java20211118003147868965.java:10: error: ';' expected
-		int result = (a + b)
-		                    ^
-1 error

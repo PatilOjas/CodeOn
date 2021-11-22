@@ -5,6 +5,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Editor</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<link rel="stylesheet" href="{% static 'styles/editorStyle.css' %}">
 	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" /> -->
@@ -23,7 +24,7 @@
 </head>
 <body>
 		<h1 class="logo">CodeOn</h1>
-		<form action="#" method="post">
+		<form action="#" method="post" id="Formid" >
 			{% csrf_token %}
 			<label for="myselect">Select your preferred language:</label>
 			<select class="myselect" name="language">
@@ -32,7 +33,7 @@
 				<option value=".py">Python</option>
 			</select>
 			<br>
-			<textarea name="code" id="code" cols="150" rows="20"></textarea>
+			<textarea name="code" id="code" cols="150" rows="20">{{ code }}</textarea>
 			<br>
 			<button class="btn btn-success" type="submit">Execute</button>
 		</form>
@@ -42,22 +43,6 @@
 		{{ result }}
 		{% endif %}
 				
-	<!-- <script src="{% static 'scripts/texteditor.js' %}"></script> -->
-	<!-- <script>
-
-
-		function onSelectChange(selectedVal) {
-
-			console.log(selectedVal)
-			if (selectedVal != undefined && selectedVal != null && selectedVal != "") {
-				$("button").off('click');
-				codeEditor(selectedVal)
-			}
-		}
-		window.onload = function () {
-			codeEditor("53");
-		};
-	</script> -->
 </body>
 
 </html>
