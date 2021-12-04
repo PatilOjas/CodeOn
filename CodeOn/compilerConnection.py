@@ -8,7 +8,7 @@ class CompilerConn:
 
         proxy = xmlrpc.client.ServerProxy("http://127.0.0.1:9999/")
 
-        recieved = proxy.JavaCompiler(code, "1\n1\n")
+        recieved = proxy.JavaCompiler(code, "1\n6\n")
         
         return recieved
 

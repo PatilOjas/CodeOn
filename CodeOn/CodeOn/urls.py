@@ -20,6 +20,7 @@ from editor.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('', homepage),
-	path('editor/', editorPage)
+	path('editor/', editorPage),
+    path('timeup/', timeOver),
 
 ]

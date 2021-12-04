@@ -9,9 +9,9 @@ body {
   }
   
 .logo{
-	align-self: flex-start;
-	text-align: left;
-	display: block;
+	margin: 2px 50%;
+	align-self: center;
+	text-align: center;
 }
 
 .myselect {
@@ -56,3 +56,16 @@ textarea{
 	color: white;
 }
 
+.QTcontainer{
+	display: inline-flex;
+	flex-direction: row;
+	align-content: space-between;
+}
+
+.question{
+	display: inline;
+}
+
+#countdown{
+	display: inline;
+}
