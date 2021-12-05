@@ -1,0 +1,71 @@
+body {
+    display: flex;
+	flex-direction: column;
+	font-family: sans-serif;
+    color: black;
+    margin-top: 0px;
+	height: 100vh;
+	box-sizing: border-box;
+  }
+  
+.logo{
+	margin: 2px 50%;
+	align-self: center;
+	text-align: center;
+}
+
+.myselect {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+width: 15vw;
+/* padding: 6px 12px; */
+border-radius: 4px;
+font-size: 1rem;
+line-height: 1.5;
+transition: all .2s ease-in-out;
+}
+.myselect::-ms-expand {
+display: none;
+}
+
+.myselect:focus {
+outline: 0;
+border-color: #7bbaff;
+box-shadow: 0 0 0 3px rgba(0, 121, 250, .3);
+}
+.btn{
+	background-color: chartreuse;
+	width: 5vw;
+	font-weight: 600;
+	height: 2rem;
+}
+.col{
+	display: block;
+}
+
+.column{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+textarea{
+	padding: 10px;
+	background-color: black;
+	color: white;
+}
+
+.QTcontainer{
+	display: inline-flex;
+	flex-direction: row;
+	align-content: space-between;
+}
+
+.question{
+	display: inline;
+}
+
+#countdown{
+	display: inline;
+}

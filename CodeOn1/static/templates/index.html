@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Editor</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="{% static 'styles/editorStyle.css' %}">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" /> -->
+
+	<!-- <style type="text/css" media="screen">
+		body {
+			overflow: hidden;
+		}
+
+		#editor {
+			min-width: 500px;
+			min-height: 500px;
+		}
+	</style> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+		<h1 class="logo">CodeOn</h1>
+		
+		<div class="qTcontainer">
+			<h1 class="question">Question:</h1>
+
+			<div id="countdown" style="justify-self: flex-end;"></div>
+		</div>
+		<h3>{{ question }}</h3>
+
+		<form action="#" method="post" id="Formid" >
+			{% csrf_token %}
+			<label for="myselect">Select your preferred language:</label>
+			<select class="myselect" name="language">
+				<option value=".cpp">C++</option>
+				<option value=".java">Java</option>
+				<option value=".py">Python</option>
+			</select>
+			<br>
+			<textarea name="code" id="code" cols="150" rows="20">{{ code }}</textarea>
+			<br>
+			<button class="btn btn-success" type="submit">Execute</button>
+		</form>
+		<h1>Result</h1>
+		<br>
+		{% if result %}
+		{{ result }}
+		{% endif %}
+				
+</body>
+<script>
+	let time = parseInt("{{ time }}");
+	// let net = require('net');
+	// let socket = new net.Socket();
+
+	// socket.connect(4441, '127.0.0.1', () => {
+	// 	socket.write("{ 'secret': {{ secret }} }")
+	// 	socket.destroy();
+	// });
+
+	
+	// if ("WebSocket" in window) {
+	// 	alert("WebSocket is supported by your Browser!");
+		
+	// 	// Let us open a web socket
+	// 	var ws = new WebSocket("ws://localhost:4441/");
+		
+	// 	ws.onopen = function() {
+			
+	// 		// Web Socket is connected, send data using send()
+	// 		ws.send("{ 'secret': {{ secret }} }");
+	// 		alert("Message is sent...");
+	// 	};
+	// }
+
+	const countdownEl = document.getElementById('countdown');
+
+	setInterval(updateCountdown,1000);
+
+	function updateCountdown(){
+		let minutes = Math.floor(time/60);
+		let seconds = time%60;
+
+		seconds = seconds < 10 ? '0' + seconds : seconds;
+		countdownEl.innerHTML =`${minutes} : ${seconds}`;
+		time--;
+		time = time < 0 ? 0 : time;
+		// if(time<=0)
+		// {
+		// 	location.href="http://127.0.0.1:8000"; 
+		// }
+	}
+
+
+</script>
+
+</html>
